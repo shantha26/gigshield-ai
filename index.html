@@ -15,18 +15,36 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* 🎨 Animated Gradient Background */
+/* 🌌 NEW PREMIUM BACKGROUND */
 body {
-  background: linear-gradient(135deg, #020617, #0f172a, #1e3a8a);
-  background-size: 300% 300%;
-  animation: gradientMove 10s ease infinite;
+  background: #020617;
   color: white;
+  position: relative;
+  overflow-x: hidden;
 }
 
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+body::before {
+  content: "";
+  position: fixed;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, #38bdf8, transparent 70%);
+  top: -200px;
+  left: -200px;
+  opacity: 0.3;
+  filter: blur(120px);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, #6366f1, transparent 70%);
+  bottom: -200px;
+  right: -200px;
+  opacity: 0.3;
+  filter: blur(120px);
 }
 
 /* HERO */
@@ -101,8 +119,8 @@ body {
 }
 
 .card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(15px);
   padding: 25px;
   border-radius: 20px;
   width: 240px;
@@ -166,6 +184,29 @@ body {
   from { width: 0; }
 }
 
+/* DEMO BUTTON */
+.demo-btn {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  background: #38bdf8;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.demo-btn:hover {
+  background: #60a5fa;
+}
+
+/* RESULT */
+#result {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #38bdf8;
+}
+
 /* FOOTER */
 footer {
   text-align: center;
@@ -178,13 +219,11 @@ footer {
 .highlight {
   color: #38bdf8;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
 <section class="hero">
   <h1>GigShield AI</h1>
   <p>AI-Powered Income Protection for Gig Delivery Workers</p>
@@ -195,28 +234,27 @@ footer {
   </div>
 </section>
 
-<!-- PROBLEM -->
+<section class="section">
+  <h2>🧪 Demo Simulation</h2>
+  <p>Simulate a disruption event and see how the system responds</p>
+
+  <button onclick="simulate()" class="demo-btn">Simulate Rain Disruption</button>
+
+  <p id="result"></p>
+</section>
+
 <section class="section">
   <h2>🚨 The Problem</h2>
-  <p>
-    Gig workers face sudden income loss due to weather disruptions, pollution spikes,
-    and unexpected restrictions with no financial protection.
-  </p>
+  <p>Gig workers face sudden income loss due to unpredictable disruptions with no safety net.</p>
 </section>
 
-<!-- SOLUTION -->
 <section class="section">
   <h2>💡 Our Solution</h2>
-  <p>
-    GigShield AI provides automated parametric insurance that detects disruptions in real time
-    and ensures instant compensation without manual claims.
-  </p>
+  <p>Automated parametric insurance with real-time detection and instant payouts.</p>
 </section>
 
-<!-- FEATURES -->
 <section class="section">
   <h2>⚙️ Core Features</h2>
-
   <div class="grid">
     <div class="card">🤖 AI Risk Engine</div>
     <div class="card">📅 Weekly Insurance</div>
@@ -225,45 +263,36 @@ footer {
   </div>
 </section>
 
-<!-- FLOWCHART -->
 <section class="section">
   <h2>🧠 How It Works</h2>
-
   <div class="flowchart">
     <div class="box">User Registers</div>
     <div class="line"></div>
-
     <div class="box">Select Weekly Plan</div>
     <div class="line"></div>
-
-    <div class="box">Monitor External Data</div>
+    <div class="box">Monitor Data</div>
     <div class="line"></div>
-
     <div class="box">Detect Disruption</div>
     <div class="line"></div>
-
     <div class="box">Trigger Claim</div>
     <div class="line"></div>
-
     <div class="box">Instant Payout</div>
   </div>
 </section>
 
-<!-- FRAUD -->
 <section class="section">
   <h2>🚨 Anti-Fraud System</h2>
   <p>
     Using <span class="highlight">multi-source verification</span>,
-    behavioral analysis, and real-world event validation,
-    the system prevents fake claims and ensures fairness.
+    behavioral analysis, and real-world validation,
+    the system prevents fake claims and protects genuine workers.
   </p>
 </section>
 
-<!-- GRAPH -->
 <section class="section">
   <h2>📊 Impact</h2>
 
-  <p>System Performance & Benefits</p>
+  <p>System Performance Overview</p>
 
   <div class="graph">
     <div>Income Protection</div>
@@ -277,10 +306,16 @@ footer {
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   © 2026 GigShield AI • Team Straw Hats • DEVTrails Hackathon
 </footer>
+
+<script>
+function simulate() {
+  document.getElementById("result").innerText =
+    "🌧 Heavy rain detected → Claim triggered → ₹300 payout initiated";
+}
+</script>
 
 </body>
 </html>
