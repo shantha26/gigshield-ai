@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GigShield AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* 🎨 Animated Gradient Background */
+body {
+  background: linear-gradient(135deg, #020617, #0f172a, #1e3a8a);
+  background-size: 300% 300%;
+  animation: gradientMove 10s ease infinite;
+  color: white;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h1 {
+  font-size: 56px;
+  background: linear-gradient(90deg, #38bdf8, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  margin-top: 15px;
+  font-size: 20px;
+  color: #cbd5f5;
+}
+
+.team {
+  margin-top: 10px;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* BUTTON */
+.cta {
+  margin-top: 30px;
+}
+
+.cta a {
+  text-decoration: none;
+  padding: 14px 30px;
+  border-radius: 30px;
+  background: linear-gradient(90deg, #38bdf8, #6366f1);
+  color: white;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.cta a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #38bdf8;
+}
+
+/* SECTION */
+.section {
+  padding: 70px 20px;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 34px;
+  margin-bottom: 20px;
+}
+
+.section p {
+  max-width: 750px;
+  margin: auto;
+  color: #cbd5f5;
+}
+
+/* CARDS */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 20px;
+  width: 240px;
+  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(56,189,248,0.3);
+}
+
+/* FLOWCHART */
+.flowchart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.box {
+  background: rgba(255,255,255,0.08);
+  padding: 15px 30px;
+  border-radius: 15px;
+  margin: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: 0.3s;
+}
+
+.box:hover {
+  background: #38bdf8;
+  color: black;
+  transform: scale(1.05);
+}
+
+.line {
+  width: 2px;
+  height: 25px;
+  background: #38bdf8;
+}
+
+/* GRAPH */
+.graph {
+  margin-top: 40px;
+}
+
+.bar {
+  height: 20px;
+  margin: 10px auto;
+  background: linear-gradient(90deg, #38bdf8, #6366f1);
+  border-radius: 10px;
+  width: 0;
+  animation: grow 2s forwards;
+}
+
+.bar1 { width: 85%; }
+.bar2 { width: 70%; }
+.bar3 { width: 95%; }
+
+@keyframes grow {
+  from { width: 0; }
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 30px;
+  background: #020617;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.highlight {
+  color: #38bdf8;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>GigShield AI</h1>
+  <p>AI-Powered Income Protection for Gig Delivery Workers</p>
+  <div class="team">Team Straw Hats • DEVTrails 2026</div>
+
+  <div class="cta">
+    <a href="#">🚀 Live Demo Prototype</a>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section">
+  <h2>🚨 The Problem</h2>
+  <p>
+    Gig workers face sudden income loss due to weather disruptions, pollution spikes,
+    and unexpected restrictions with no financial protection.
+  </p>
+</section>
+
+<!-- SOLUTION -->
+<section class="section">
+  <h2>💡 Our Solution</h2>
+  <p>
+    GigShield AI provides automated parametric insurance that detects disruptions in real time
+    and ensures instant compensation without manual claims.
+  </p>
+</section>
+
+<!-- FEATURES -->
+<section class="section">
+  <h2>⚙️ Core Features</h2>
+
+  <div class="grid">
+    <div class="card">🤖 AI Risk Engine</div>
+    <div class="card">📅 Weekly Insurance</div>
+    <div class="card">⚡ Auto Claim Trigger</div>
+    <div class="card">🔒 Fraud Detection</div>
+  </div>
+</section>
+
+<!-- FLOWCHART -->
+<section class="section">
+  <h2>🧠 How It Works</h2>
+
+  <div class="flowchart">
+    <div class="box">User Registers</div>
+    <div class="line"></div>
+
+    <div class="box">Select Weekly Plan</div>
+    <div class="line"></div>
+
+    <div class="box">Monitor External Data</div>
+    <div class="line"></div>
+
+    <div class="box">Detect Disruption</div>
+    <div class="line"></div>
+
+    <div class="box">Trigger Claim</div>
+    <div class="line"></div>
+
+    <div class="box">Instant Payout</div>
+  </div>
+</section>
+
+<!-- FRAUD -->
+<section class="section">
+  <h2>🚨 Anti-Fraud System</h2>
+  <p>
+    Using <span class="highlight">multi-source verification</span>,
+    behavioral analysis, and real-world event validation,
+    the system prevents fake claims and ensures fairness.
+  </p>
+</section>
+
+<!-- GRAPH -->
+<section class="section">
+  <h2>📊 Impact</h2>
+
+  <p>System Performance & Benefits</p>
+
+  <div class="graph">
+    <div>Income Protection</div>
+    <div class="bar bar1"></div>
+
+    <div>Fraud Detection</div>
+    <div class="bar bar2"></div>
+
+    <div>Automation Efficiency</div>
+    <div class="bar bar3"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 GigShield AI • Team Straw Hats • DEVTrails Hackathon
+</footer>
+
+</body>
+</html>
