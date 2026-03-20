@@ -86,13 +86,9 @@ Key aspects of the solution include:
 6. Claim is triggered automatically  
 7. Payout is processed and credited to the user  
 
-This workflow ensures a seamless experience with minimal manual intervention.
-
 ---
 
 ## Weekly Premium Model
-
-The pricing model is designed around a **weekly cycle**, aligning with gig workers' earning patterns.
 
 | Risk Level | Weekly Premium |
 |------------|----------------|
@@ -109,133 +105,130 @@ Premiums are calculated based on:
 
 ## Parametric Triggers
 
-The system uses predefined conditions to trigger payouts:
-
 - Rainfall above threshold  
 - Extreme temperature conditions  
 - Flood alerts  
 - Government-imposed restrictions  
 - High pollution levels  
 
-These triggers are validated using reliable external APIs.
+All triggers are validated using trusted external data sources.
 
 ---
 
 ## AI / Machine Learning Approach
 
-GigShield AI uses machine learning to improve decision-making, pricing, and fraud detection.
+GigShield AI uses data-driven models to support pricing, prediction, and fraud detection.
 
 ### Risk Prediction Model
-The system analyzes historical data such as rainfall, temperature, pollution levels, and past disruptions to estimate the likelihood of future events in a specific region.
+Inputs:
+- Rainfall intensity  
+- Temperature patterns  
+- Pollution levels  
+- Historical disruption frequency  
 
-This generates a **risk score**, which helps determine how likely a disruption is to occur.
+Output:
+- Region-specific **risk score**
+
+This score helps estimate disruption probability and drives premium pricing.
 
 ---
 
 ### Dynamic Premium Calculation
-Based on the predicted risk score, the system adjusts weekly premiums.
+Premiums are adjusted based on predicted risk:
 
-Higher-risk areas → higher premium  
-Lower-risk areas → affordable pricing  
+Higher risk → higher premium  
+Lower risk → affordable pricing  
 
-This ensures fairness and sustainability.
+This ensures sustainability and fairness.
 
 ---
 
 ### Fraud Detection Model
-The platform combines rule-based logic with pattern analysis techniques:
+The system combines rule-based logic with behavioral analysis:
 
-- Detects unusual claim frequency  
-- Identifies outliers in user behavior  
-- Uses clustering to find suspicious user groups  
-
-This helps detect fraud scenarios such as GPS spoofing and coordinated fake claims.
+- Detects abnormal claim frequency  
+- Identifies location inconsistencies  
+- Flags unusual user activity patterns  
+- Uses clustering to detect coordinated fraud groups  
 
 ---
 
 ## System Design & Technical Approach
 
-GigShield AI follows a modular architecture:
+GigShield AI follows a modular and scalable architecture:
 
 ### Frontend
-A mobile-first interface built using React.js that allows users to:
-- Register  
-- Select insurance plans  
-- Track claims  
-
----
+Mobile-first UI (React.js) for onboarding, plan selection, and claim tracking.
 
 ### Backend
-Node.js with Express handles:
-- API processing  
+Node.js + Express handles:
 - Premium calculation  
-- Claim triggering logic  
-
----
+- Claim triggering  
+- API communication  
 
 ### Data Layer
-PostgreSQL / Firebase stores:
+Stores:
 - User profiles  
-- Policy details  
+- Policy data  
 - Claim history  
 
----
-
-### External Data Integration
-The system integrates real-time data from:
+### External Data Layer
 - Weather APIs  
-- Traffic and environmental data  
 - Government alerts  
-
----
+- Environmental data  
 
 ### Decision Engine
-A central logic engine:
-- Monitors incoming data  
-- Validates disruption conditions  
+- Continuously monitors data  
+- Validates disruption thresholds  
 - Automatically triggers payouts  
-
-This ensures a fully automated and reliable workflow.
 
 ---
 
 ## Adversarial Defense & Anti-Spoofing Strategy 🚨
 
-To address large-scale fraud scenarios such as GPS spoofing and coordinated fake claims, the platform incorporates a multi-layered defense strategy.
+To handle large-scale fraud such as GPS spoofing and coordinated attacks, the system uses multiple validation layers.
 
 ### Multi-Source Verification
-Location data is validated using GPS, IP-based location, and movement consistency.
+Combines GPS, IP location, and movement consistency to validate user presence.
 
 ### Behavioral Analysis
-Unusual patterns such as sudden claim spikes and repeated claims are flagged.
+Detects:
+- Sudden spikes in claims  
+- Repeated patterns  
+- Unusual timing  
 
 ### Event Correlation
-Claims are validated against real-world events such as weather and alerts.
+Claims are validated against:
+- Weather data  
+- Traffic conditions  
+- Government alerts  
 
 ### Device Intelligence
-Multiple accounts from the same device are detected and restricted.
+Detects multiple accounts from the same device or network.
 
 ### Trust Scoring
-Each user is assigned a trust score based on past behavior.
+Each user has a dynamic trust score based on past behavior.
 
 ### Fraud Ring Detection
-Clusters of suspicious users are identified using pattern similarity.
+Clusters of users with similar patterns are identified and flagged.
 
 ### Fairness Mechanism
-Suspicious claims are flagged instead of immediately rejected, ensuring genuine users are not penalized.
+- Suspicious claims are flagged, not immediately rejected  
+- Edge cases are reviewed  
+- Genuine users are protected  
 
 ---
 
 ### Market Crash Scenario Handling
 
-In large-scale fraud scenarios (e.g., hundreds of fake users attempting claims simultaneously):
+In extreme scenarios involving coordinated fraud (e.g., hundreds of fake users):
 
-- Claims are cross-verified using multiple independent data sources  
-- Suspicious clusters are identified using behavior similarity  
-- High-risk users are flagged before payout  
-- Only claims supported by real-world disruption data are processed  
+- Claims must match verified real-world disruption data  
+- Clustered suspicious users are flagged before payout  
+- High-risk accounts undergo stricter validation  
+- Only verified and consistent claims are processed  
 
-This ensures the system remains secure, even during coordinated fraud attacks.
+This ensures system stability even under large-scale attacks.
 
 ---
 
@@ -255,17 +248,17 @@ This ensures the system remains secure, even during coordinated fraud attacks.
 
 ## Platform Choice
 
-The system is designed as a **mobile-first web application**, considering that delivery workers primarily rely on smartphones during their work.
+Mobile-first web application optimized for delivery workers.
 
 ---
 
 ## Future Enhancements
 
-- Predictive alerts for disruptions  
-- Risk heatmaps for different regions  
-- Integration with delivery platforms  
-- Advanced dashboards for analytics  
-- Personalized insurance plans  
+- Predictive disruption alerts  
+- Risk heatmaps  
+- Platform integrations  
+- Advanced dashboards  
+- Personalized plans  
 
 ---
 
@@ -283,13 +276,11 @@ gigshield-ai
 
 ## Phase 1 Prototype
 
-The Phase 1 prototype focuses on demonstrating:
-
 - User onboarding  
-- Insurance plan selection  
-- Premium calculation logic  
+- Plan selection  
+- Premium logic  
 - Disruption simulation  
-- Automated claim triggering  
+- Auto claim triggering  
 
 ---
 
