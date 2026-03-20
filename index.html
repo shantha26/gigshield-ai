@@ -6,6 +6,7 @@
 <title>GigShield AI</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 * {
@@ -15,46 +16,30 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* 🌌 NEW PREMIUM BACKGROUND */
 body {
-  background: #020617;
+  background: radial-gradient(circle at top left, #0f172a, #020617);
   color: white;
-  position: relative;
   overflow-x: hidden;
 }
 
 body::before {
   content: "";
   position: fixed;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, #38bdf8, transparent 70%);
-  top: -200px;
-  left: -200px;
-  opacity: 0.3;
-  filter: blur(120px);
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
 }
 
-body::after {
-  content: "";
-  position: fixed;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, #6366f1, transparent 70%);
-  bottom: -200px;
-  right: -200px;
-  opacity: 0.3;
-  filter: blur(120px);
-}
-
-/* HERO */
 .hero {
   text-align: center;
   padding: 100px 20px;
 }
 
 .hero h1 {
-  font-size: 56px;
+  font-size: 60px;
   background: linear-gradient(90deg, #38bdf8, #60a5fa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -72,12 +57,9 @@ body::after {
   font-weight: 600;
 }
 
-/* BUTTON */
-.cta {
-  margin-top: 30px;
-}
-
 .cta a {
+  display: inline-block;
+  margin-top: 30px;
   text-decoration: none;
   padding: 14px 30px;
   border-radius: 30px;
@@ -88,28 +70,36 @@ body::after {
 }
 
 .cta a:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #38bdf8;
+  transform: scale(1.1);
+  box-shadow: 0 0 25px #38bdf8;
 }
 
-/* SECTION */
 .section {
   padding: 70px 20px;
   text-align: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.6s;
+}
+
+.section.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .section h2 {
-  font-size: 34px;
+  font-size: 36px;
   margin-bottom: 20px;
 }
 
 .section p {
-  max-width: 750px;
+  max-width: 900px;
   margin: auto;
   color: #cbd5f5;
+  line-height: 1.8;
+  margin-bottom: 10px;
 }
 
-/* CARDS */
 .grid {
   display: flex;
   flex-wrap: wrap;
@@ -119,41 +109,29 @@ body::after {
 }
 
 .card {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
   padding: 25px;
   border-radius: 20px;
-  width: 240px;
+  width: 260px;
   transition: 0.3s;
-  border: 1px solid rgba(255,255,255,0.1);
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(56,189,248,0.3);
+  transform: translateY(-12px) scale(1.05);
 }
 
-/* FLOWCHART */
 .flowchart {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
 }
 
 .box {
-  background: rgba(255,255,255,0.08);
   padding: 15px 30px;
   border-radius: 15px;
   margin: 10px;
-  border: 1px solid rgba(255,255,255,0.2);
-  transition: 0.3s;
-}
-
-.box:hover {
-  background: #38bdf8;
-  color: black;
-  transform: scale(1.05);
+  background: rgba(255,255,255,0.1);
 }
 
 .line {
@@ -162,29 +140,13 @@ body::after {
   background: #38bdf8;
 }
 
-/* GRAPH */
-.graph {
-  margin-top: 40px;
-}
-
 .bar {
   height: 20px;
   margin: 10px auto;
   background: linear-gradient(90deg, #38bdf8, #6366f1);
   border-radius: 10px;
-  width: 0;
-  animation: grow 2s forwards;
 }
 
-.bar1 { width: 85%; }
-.bar2 { width: 70%; }
-.bar3 { width: 95%; }
-
-@keyframes grow {
-  from { width: 0; }
-}
-
-/* DEMO BUTTON */
 .demo-btn {
   padding: 12px 25px;
   border-radius: 25px;
@@ -196,28 +158,17 @@ body::after {
   margin-top: 20px;
 }
 
-.demo-btn:hover {
-  background: #60a5fa;
-}
-
-/* RESULT */
 #result {
   margin-top: 20px;
   font-weight: bold;
   color: #38bdf8;
+  font-size: 18px;
 }
 
-/* FOOTER */
 footer {
   text-align: center;
   padding: 30px;
-  background: #020617;
-  font-size: 14px;
   color: #94a3b8;
-}
-
-.highlight {
-  color: #38bdf8;
 }
 </style>
 </head>
@@ -235,85 +186,154 @@ footer {
 </section>
 
 <section class="section">
-  <h2>🧪 Demo Simulation</h2>
-  <p>Simulate a disruption event and see how the system responds</p>
-
-  <button onclick="simulate()" class="demo-btn">Simulate Rain Disruption</button>
-
-  <p id="result"></p>
-</section>
-
-<section class="section">
   <h2>🚨 The Problem</h2>
-  <p>Gig workers face sudden income loss due to unpredictable disruptions with no safety net.</p>
+  <p>
+    Millions of gig workers depend on daily earnings for survival. However, their income is highly unstable and vulnerable to external disruptions such as heavy rainfall, traffic congestion, strikes, or technical outages in delivery platforms.
+  </p>
+  <p>
+    Unlike salaried employees, gig workers lack job security, insurance, and paid leave. A single day of disruption can directly impact their ability to afford basic necessities.
+  </p>
 </section>
 
 <section class="section">
   <h2>💡 Our Solution</h2>
-  <p>Automated parametric insurance with real-time detection and instant payouts.</p>
+  <p>
+    GigShield AI introduces a parametric insurance system that automatically compensates workers when disruptions occur.
+  </p>
+  <p>
+    Instead of filing claims manually, our AI engine continuously evaluates risk factors such as weather, traffic, and demand patterns to trigger instant payouts.
+  </p>
 </section>
 
 <section class="section">
   <h2>⚙️ Core Features</h2>
   <div class="grid">
-    <div class="card">🤖 AI Risk Engine</div>
-    <div class="card">📅 Weekly Insurance</div>
-    <div class="card">⚡ Auto Claim Trigger</div>
-    <div class="card">🔒 Fraud Detection</div>
+    <div class="card">🤖 AI Risk Engine analyzes multiple real-time factors to predict disruptions.</div>
+    <div class="card">📅 Flexible Plans allow workers to choose affordable weekly coverage.</div>
+    <div class="card">⚡ Automated Claims ensure instant payouts without paperwork.</div>
+    <div class="card">🔒 Fraud Detection identifies suspicious patterns using behavioral analysis.</div>
   </div>
 </section>
 
 <section class="section">
   <h2>🧠 How It Works</h2>
+  <p>
+    The system collects multiple data inputs and processes them using a predictive model to determine the likelihood of disruption.
+  </p>
+
   <div class="flowchart">
     <div class="box">User Registers</div>
     <div class="line"></div>
-    <div class="box">Select Weekly Plan</div>
+    <div class="box">Select Plan</div>
     <div class="line"></div>
-    <div class="box">Monitor Data</div>
+    <div class="box">AI Monitors Conditions</div>
     <div class="line"></div>
-    <div class="box">Detect Disruption</div>
+    <div class="box">Risk Evaluated</div>
     <div class="line"></div>
-    <div class="box">Trigger Claim</div>
+    <div class="box">Auto Claim Trigger</div>
     <div class="line"></div>
-    <div class="box">Instant Payout</div>
+    <div class="box">Instant Wallet Credit</div>
   </div>
 </section>
 
 <section class="section">
-  <h2>🚨 Anti-Fraud System</h2>
+  <h2>🧪 AI Prediction Demo</h2>
   <p>
-    Using <span class="highlight">multi-source verification</span>,
-    behavioral analysis, and real-world validation,
-    the system prevents fake claims and protects genuine workers.
+    This demo simulates how our AI model evaluates disruption risk using multiple input factors and triggers actions accordingly.
   </p>
+
+  <button onclick="simulateAI()" class="demo-btn">Run AI Prediction</button>
+  <p id="result"></p>
+
+  <canvas id="aiChart" width="400" height="200"></canvas>
 </section>
 
 <section class="section">
   <h2>📊 Impact</h2>
+  <p>
+    GigShield AI significantly improves worker stability by reducing income uncertainty and providing immediate financial relief during disruptions.
+  </p>
 
-  <p>System Performance Overview</p>
+  <div>Income Protection</div>
+  <div class="bar" style="width:85%"></div>
 
-  <div class="graph">
-    <div>Income Protection</div>
-    <div class="bar bar1"></div>
+  <div>Fraud Detection Accuracy</div>
+  <div class="bar" style="width:70%"></div>
 
-    <div>Fraud Detection</div>
-    <div class="bar bar2"></div>
-
-    <div>Automation Efficiency</div>
-    <div class="bar bar3"></div>
-  </div>
+  <div>Automation Efficiency</div>
+  <div class="bar" style="width:95%"></div>
 </section>
 
 <footer>
-  © 2026 GigShield AI • Team Straw Hats • DEVTrails Hackathon
+  © 2026 GigShield AI • Team Straw Hats
 </footer>
 
 <script>
-function simulate() {
-  document.getElementById("result").innerText =
-    "🌧 Heavy rain detected → Claim triggered → ₹300 payout initiated";
+const sections = document.querySelectorAll(".section");
+window.addEventListener("scroll", () => {
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){
+      sec.classList.add("show");
+    }
+  });
+});
+
+const ctx = document.getElementById('aiChart').getContext('2d');
+
+let chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Rain','Demand','Traffic','History','Final Risk'],
+    datasets: [{
+      label: 'Risk %',
+      data: [10,20,30,40,50],
+      borderColor: '#38bdf8',
+      backgroundColor: 'rgba(56,189,248,0.2)',
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { labels: { color: "white" } }
+    },
+    scales: {
+      x: { ticks: { color: "white" }},
+      y: { ticks: { color: "white" }}
+    }
+  }
+});
+
+function simulateAI() {
+  let rain = Math.random();
+  let demand = Math.random();
+  let traffic = Math.random();
+  let history = Math.random();
+
+  let risk = (rain*0.4 + demand*0.2 + traffic*0.25 + history*0.15) * 100;
+  risk = Math.round(risk);
+
+  let message;
+
+  if(risk > 70){
+    message = `⚠ High Risk (${risk}%) → Claim Triggered → ₹300 Credited`;
+  } else if(risk > 40){
+    message = `⚡ Medium Risk (${risk}%) → Monitoring...`;
+  } else {
+    message = `✅ Low Risk (${risk}%) → No payout`;
+  }
+
+  document.getElementById("result").innerText = message;
+
+  chart.data.datasets[0].data = [
+    rain*100,
+    demand*100,
+    traffic*100,
+    history*100,
+    risk
+  ];
+  chart.update();
 }
 </script>
 
