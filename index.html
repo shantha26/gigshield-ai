@@ -3,339 +3,1011 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GigShield AI</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<title>GigShield AI — Parametric Income Protection</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+:root {
+  --bg: #f5f0e8;
+  --bg2: #ede8df;
+  --ink: #1a1a18;
+  --ink2: #3d3d38;
+  --muted: #888880;
+  --orange: #e85d04;
+  --orange-light: #ff6b1a;
+  --green: #1a7a4a;
+  --green-light: #22a060;
+  --red: #c0392b;
+  --amber: #d97706;
+  --card: #fff9f0;
+  --card-border: rgba(26,26,24,0.1);
+  --mono: 'Space Mono', monospace;
+  --sans: 'Outfit', sans-serif;
 }
 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body {
-  background: radial-gradient(circle at top left, #0f172a, #020617);
-  color: white;
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
   overflow-x: hidden;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%; height: 56px;
+  background: var(--ink);
+  border-bottom: 2px solid var(--orange);
+}
+.nav-logo {
+  font-family: var(--mono); font-size: 1rem; font-weight: 700;
+  color: var(--bg); display: flex; align-items: center; gap: 0.7rem; letter-spacing: -0.02em;
+}
+.nav-logo-mark {
+  width: 28px; height: 28px;
+  background: var(--orange);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  flex-shrink: 0;
+}
+.nav-links { display: flex; gap: 0; }
+.nav-links a {
+  font-family: var(--mono); font-size: 0.72rem; color: rgba(245,240,232,0.5);
+  text-decoration: none; padding: 0 1rem; height: 56px;
+  display: flex; align-items: center; border-right: 1px solid rgba(255,255,255,0.06);
+  transition: color 0.15s, background 0.15s; letter-spacing: 0.04em;
+}
+.nav-links a:first-child { border-left: 1px solid rgba(255,255,255,0.06); }
+.nav-links a:hover { color: var(--bg); background: rgba(255,255,255,0.04); }
+.nav-badge {
+  font-family: var(--mono); font-size: 0.65rem; color: var(--orange);
+  border: 1px solid var(--orange); padding: 0.25rem 0.7rem; border-radius: 2px;
+  letter-spacing: 0.08em;
 }
 
-.hero {
-  text-align: center;
-  padding: 100px 20px;
+/* ── HERO ── */
+#hero {
+  min-height: 100vh; padding: 56px 0 0;
+  display: grid; grid-template-columns: 1fr 1fr;
+  position: relative; overflow: hidden;
+}
+.hero-left {
+  padding: 5rem 5% 4rem;
+  display: flex; flex-direction: column; justify-content: center;
+  border-right: 1px solid var(--card-border);
+  position: relative; z-index: 1;
+}
+.hero-right {
+  padding: 4rem 4% 4rem;
+  display: flex; flex-direction: column; justify-content: center;
+  background: var(--ink); position: relative; overflow: hidden;
+}
+.hero-right-bg {
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 39px, rgba(255,255,255,0.03) 39px, rgba(255,255,255,0.03) 40px
+  ), repeating-linear-gradient(
+    90deg, transparent, transparent 39px, rgba(255,255,255,0.03) 39px, rgba(255,255,255,0.03) 40px
+  );
+}
+.eyebrow {
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em;
+  color: var(--orange); text-transform: uppercase; margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 2px; background: var(--orange); }
+h1 {
+  font-family: var(--sans); font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+  font-weight: 800; line-height: 1.0; letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+h1 em { font-style: normal; color: var(--orange); }
+.hero-desc {
+  font-size: 1.05rem; color: var(--ink2); line-height: 1.7; max-width: 480px;
+  margin-bottom: 2.5rem; font-weight: 400;
+}
+.hero-ctas { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 3rem; }
+.btn-fill {
+  background: var(--orange); color: #fff; border: 2px solid var(--orange);
+  padding: 0.7rem 1.8rem; font-family: var(--sans); font-weight: 700; font-size: 0.9rem;
+  cursor: pointer; letter-spacing: 0.02em; transition: all 0.15s;
+}
+.btn-fill:hover { background: var(--orange-light); border-color: var(--orange-light); transform: translateY(-2px); }
+.btn-outline {
+  background: transparent; color: var(--ink); border: 2px solid var(--ink);
+  padding: 0.7rem 1.8rem; font-family: var(--sans); font-weight: 700; font-size: 0.9rem;
+  cursor: pointer; letter-spacing: 0.02em; transition: all 0.15s;
+}
+.btn-outline:hover { background: var(--ink); color: var(--bg); }
+.hero-kpis { display: flex; gap: 0; }
+.kpi {
+  flex: 1; padding: 1.2rem 1.4rem;
+  border: 1px solid var(--card-border); border-right: none; background: var(--card);
+}
+.kpi:last-child { border-right: 1px solid var(--card-border); }
+.kpi-val { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; color: var(--ink); }
+.kpi-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.3; }
+
+/* Right side: system map */
+.sys-map { position: relative; z-index: 1; padding: 1rem; }
+.sys-title { font-family: var(--mono); font-size: 0.68rem; color: rgba(245,240,232,0.35); letter-spacing: 0.08em; margin-bottom: 1.5rem; }
+.sys-nodes { display: flex; flex-direction: column; gap: 0.8rem; }
+.sys-node {
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  padding: 0.9rem 1.2rem; position: relative; overflow: hidden;
+  transition: border-color 0.3s;
+}
+.sys-node.active { border-color: rgba(232,93,4,0.5); background: rgba(232,93,4,0.06); }
+.sys-node.active .node-pulse { animation: pulse-node 1.5s ease-in-out infinite; }
+@keyframes pulse-node { 0%,100% { box-shadow: 0 0 0 0 rgba(232,93,4,0.4); } 50% { box-shadow: 0 0 0 8px rgba(232,93,4,0); } }
+.node-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.node-pulse { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+.node-pulse.on { background: var(--orange); }
+.node-text { flex: 1; }
+.node-name { font-family: var(--mono); font-size: 0.78rem; color: rgba(245,240,232,0.9); }
+.node-status { font-size: 0.7rem; color: rgba(245,240,232,0.35); margin-top: 0.2rem; }
+.node-status.live { color: #4ade80; }
+.connector { width: 1px; height: 16px; background: rgba(232,93,4,0.3); margin-left: 29px; }
+
+/* ── SECTION COMMONS ── */
+section { padding: 5rem 5%; }
+.sec-label {
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+  display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.2rem;
+}
+.sec-label span { display: block; width: 32px; height: 1px; background: var(--muted); }
+h2 {
+  font-family: var(--sans); font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem;
+}
+.sec-desc { color: var(--ink2); max-width: 540px; line-height: 1.7; margin-bottom: 3rem; font-size: 0.95rem; }
+
+/* ── PROBLEM STRIP ── */
+#problem {
+  background: var(--ink); color: var(--bg);
+  padding: 3rem 5%; display: flex; gap: 3rem; align-items: center; flex-wrap: wrap;
+  border-top: 2px solid var(--orange);
+}
+.problem-quote {
+  flex: 1; min-width: 280px;
+  font-family: var(--sans); font-size: 1.4rem; font-weight: 300; line-height: 1.5;
+  font-style: italic; border-left: 3px solid var(--orange); padding-left: 1.5rem;
+}
+.problem-quote strong { font-weight: 700; font-style: normal; color: var(--orange); }
+.problem-facts { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 0.8rem; }
+.fact-row { display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.88rem; color: rgba(245,240,232,0.65); }
+.fact-row::before { content: '→'; color: var(--orange); flex-shrink: 0; font-family: var(--mono); }
+
+/* ── HOW IT WORKS ── */
+#how { background: var(--bg2); border-top: 1px solid var(--card-border); }
+.flow-track { position: relative; }
+.flow-line {
+  position: absolute; top: 32px; left: 32px; right: 32px; height: 2px;
+  background: repeating-linear-gradient(90deg, var(--orange) 0, var(--orange) 8px, transparent 8px, transparent 16px);
+  z-index: 0;
+}
+.flow-steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; position: relative; z-index: 1; }
+.flow-step { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.flow-num {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--card-border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 1.4rem; font-weight: 700;
+  margin-bottom: 1rem; position: relative; z-index: 1;
+  transition: all 0.2s;
+}
+.flow-step:hover .flow-num { background: var(--orange); color: #fff; border-color: var(--orange); }
+.flow-icon-sm { font-size: 1.3rem; margin-bottom: 0.5rem; }
+.flow-step h4 { font-size: 0.82rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.3; }
+.flow-step p { font-size: 0.72rem; color: var(--muted); line-height: 1.5; }
+
+/* ── PARAMETRIC ENGINE ── */
+#engine { background: var(--bg); border-top: 1px solid var(--card-border); }
+.engine-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; }
+.trigger-table { border: 1px solid var(--card-border); overflow: hidden; }
+.trigger-table-head {
+  display: grid; grid-template-columns: 2fr 2fr 1.2fr 1fr;
+  background: var(--ink); color: var(--bg);
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em;
+  padding: 0.8rem 1.2rem;
+}
+.trigger-row {
+  display: grid; grid-template-columns: 2fr 2fr 1.2fr 1fr;
+  padding: 1rem 1.2rem; border-bottom: 1px solid var(--card-border);
+  align-items: center; cursor: pointer; transition: background 0.15s;
+  background: var(--card);
+}
+.trigger-row:hover { background: rgba(232,93,4,0.04); }
+.trigger-row:last-child { border-bottom: none; }
+.tr-event { font-weight: 600; font-size: 0.88rem; display: flex; align-items: center; gap: 0.5rem; }
+.tr-source { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+.tr-threshold { font-family: var(--mono); font-size: 0.78rem; color: var(--orange); font-weight: 700; }
+.tr-status { display: flex; justify-content: flex-end; }
+.status-pill {
+  font-family: var(--mono); font-size: 0.65rem; padding: 0.2rem 0.6rem;
+  border-radius: 2px; letter-spacing: 0.06em;
+}
+.status-pill.ok { background: rgba(26,122,74,0.12); color: var(--green); border: 1px solid rgba(26,122,74,0.2); }
+.status-pill.watch { background: rgba(217,119,6,0.12); color: var(--amber); border: 1px solid rgba(217,119,6,0.2); }
+
+/* Fraud shield */
+.fraud-panel {
+  background: var(--card); border: 1px solid var(--card-border); padding: 1.8rem;
+}
+.fraud-panel h3 { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: 0.04em; }
+.shield-layers { display: flex; flex-direction: column; gap: 0.6rem; }
+.shield-layer {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.8rem 1rem; border: 1px solid var(--card-border);
+  background: var(--bg);
+}
+.layer-num { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); flex-shrink: 0; width: 20px; }
+.layer-icon { font-size: 1rem; flex-shrink: 0; }
+.layer-text { flex: 1; }
+.layer-name { font-size: 0.82rem; font-weight: 600; }
+.layer-desc { font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; }
+.layer-check { font-family: var(--mono); font-size: 0.72rem; color: var(--green); }
+
+/* ── PROTOTYPE SIMULATOR ── */
+#prototype {
+  background: var(--ink); color: var(--bg);
+  border-top: 2px solid var(--orange);
+}
+#prototype .sec-label { color: var(--orange); }
+#prototype .sec-label span { background: var(--orange); }
+#prototype h2 { color: var(--bg); }
+#prototype .sec-desc { color: rgba(245,240,232,0.55); }
+.proto-grid { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; }
+.proto-controls { display: flex; flex-direction: column; gap: 1rem; }
+.ctrl-group { }
+.ctrl-label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; color: rgba(245,240,232,0.4); margin-bottom: 0.5rem; }
+.ctrl-select {
+  width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  color: var(--bg); padding: 0.65rem 1rem; font-family: var(--sans); font-size: 0.9rem;
+  appearance: none; cursor: pointer;
+}
+.ctrl-select:focus { outline: 1px solid var(--orange); }
+.slider-wrap { position: relative; }
+.ctrl-slider {
+  width: 100%; -webkit-appearance: none; height: 3px;
+  background: rgba(255,255,255,0.1); outline: none; cursor: pointer;
+}
+.ctrl-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px;
+  background: var(--orange); cursor: pointer; border: 2px solid var(--ink);
+}
+.slider-readout { font-family: var(--mono); font-size: 0.72rem; color: rgba(245,240,232,0.4); margin-top: 0.4rem; display: flex; justify-content: space-between; }
+.run-btn {
+  background: var(--orange); color: #fff; border: none; width: 100%;
+  padding: 0.9rem; font-family: var(--mono); font-weight: 700; font-size: 0.88rem;
+  cursor: pointer; letter-spacing: 0.06em; transition: all 0.15s; margin-top: 0.5rem;
+}
+.run-btn:hover { background: var(--orange-light); }
+
+/* Output terminal */
+.terminal {
+  background: #0d0d0b; border: 1px solid rgba(255,255,255,0.08);
+  font-family: var(--mono); font-size: 0.78rem; line-height: 1.8;
+  overflow: hidden; min-height: 460px; display: flex; flex-direction: column;
+}
+.terminal-bar {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.6rem 1rem; background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.t-dot-r { width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; }
+.t-dot-y { width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e; }
+.t-dot-g { width: 10px; height: 10px; border-radius: 50%; background: #27c93f; }
+.t-title-bar { font-size: 0.68rem; color: rgba(255,255,255,0.2); margin-left: 0.5rem; }
+.terminal-body { padding: 1.2rem; flex: 1; overflow-y: auto; }
+.t-line { margin: 0; }
+.t-prompt { color: rgba(255,255,255,0.2); }
+.t-key { color: #6fb3d3; }
+.t-val { color: #f5f0e8; }
+.t-ok { color: #4ade80; }
+.t-warn { color: #fbbf24; }
+.t-err { color: #f87171; }
+.t-orange { color: var(--orange); }
+.t-comment { color: rgba(255,255,255,0.2); }
+.t-blank { height: 0.5rem; }
+.payout-box {
+  background: rgba(232,93,4,0.08); border: 1px solid rgba(232,93,4,0.3);
+  padding: 1.2rem; margin-top: 1rem;
+}
+.payout-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
+.payout-main { font-size: 2rem; font-weight: 700; color: var(--orange); }
+.payout-label { font-size: 0.72rem; color: rgba(245,240,232,0.35); }
+
+/* ── AI MODEL SECTION ── */
+#aimodel { background: var(--bg2); border-top: 1px solid var(--card-border); }
+.model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.model-card {
+  background: var(--card); border: 1px solid var(--card-border); padding: 2rem;
+  position: relative; overflow: hidden;
+}
+.model-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--orange);
+}
+.model-card:nth-child(2)::after { background: var(--green); }
+.model-card:nth-child(3)::after { background: var(--amber); }
+.model-num { font-family: var(--mono); font-size: 3rem; font-weight: 700; color: rgba(26,26,24,0.05); line-height: 1; margin-bottom: 0.5rem; }
+.model-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+.model-card h3 { font-family: var(--sans); font-size: 1rem; font-weight: 800; margin-bottom: 0.6rem; }
+.model-card p { font-size: 0.83rem; color: var(--ink2); line-height: 1.6; }
+.model-inputs { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.input-tag {
+  font-family: var(--mono); font-size: 0.65rem; padding: 0.2rem 0.5rem;
+  background: var(--bg2); border: 1px solid var(--card-border); color: var(--muted);
 }
 
-.hero h1 {
-  font-size: 60px;
-  background: linear-gradient(90deg, #38bdf8, #60a5fa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* ── PRICING ── */
+#pricing { background: var(--bg); border-top: 1px solid var(--card-border); }
+.pricing-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--card-border); max-width: 860px; }
+.plan {
+  padding: 2.5rem; border-right: 1px solid var(--card-border); background: var(--card);
+  position: relative;
+}
+.plan:last-child { border-right: none; }
+.plan.mid { background: var(--ink); color: var(--bg); }
+.plan-zone { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1.2rem; }
+.plan.mid .plan-zone { color: rgba(245,240,232,0.35); }
+.plan-price-block { margin-bottom: 1.5rem; }
+.plan-price-num {
+  font-family: var(--sans); font-size: 3.2rem; font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1;
+}
+.plan-price-unit { font-size: 0.8rem; font-weight: 400; color: var(--muted); }
+.plan.mid .plan-price-unit { color: rgba(245,240,232,0.4); }
+.plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
+.plan-features li { font-size: 0.83rem; display: flex; gap: 0.7rem; align-items: flex-start; line-height: 1.4; }
+.plan-features li .ck { color: var(--green); flex-shrink: 0; font-weight: 700; }
+.plan.mid .plan-features li { color: rgba(245,240,232,0.7); }
+.plan.mid .plan-features li .ck { color: #4ade80; }
+.plan-cta {
+  width: 100%; padding: 0.7rem; font-family: var(--mono); font-size: 0.78rem;
+  font-weight: 700; cursor: pointer; letter-spacing: 0.06em; transition: all 0.15s;
+  border: 2px solid var(--ink); background: transparent; color: var(--ink);
+}
+.plan-cta:hover { background: var(--ink); color: var(--bg); }
+.plan.mid .plan-cta { border-color: var(--orange); background: var(--orange); color: #fff; }
+.plan.mid .plan-cta:hover { background: var(--orange-light); border-color: var(--orange-light); }
+.plan-recommended {
+  position: absolute; top: 0; right: 0;
+  background: var(--orange); color: #fff;
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em;
+  padding: 0.3rem 0.8rem;
 }
 
-.hero p {
-  margin-top: 15px;
-  font-size: 20px;
-  color: #cbd5f5;
+/* ── TECH ── */
+#tech { background: var(--bg2); border-top: 1px solid var(--card-border); }
+.tech-row { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--card-border); }
+.tech-chip {
+  flex: 1; min-width: 140px; padding: 1.5rem;
+  border-right: 1px solid var(--card-border);
+  background: var(--card); transition: background 0.15s;
 }
+.tech-chip:last-child { border-right: none; }
+.tech-chip:hover { background: var(--bg); }
+.tech-chip-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+.tech-chip-name { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; }
+.tech-chip-role { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
 
-.team {
-  margin-top: 10px;
-  color: #38bdf8;
-  font-weight: 600;
-}
-
-.cta a {
-  display: inline-block;
-  margin-top: 30px;
-  text-decoration: none;
-  padding: 14px 30px;
-  border-radius: 30px;
-  background: linear-gradient(90deg, #38bdf8, #6366f1);
-  color: white;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.cta a:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px #38bdf8;
-}
-
-.section {
-  padding: 70px 20px;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 0.6s;
-}
-
-.section.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.section h2 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-
-.section p {
-  max-width: 900px;
-  margin: auto;
-  color: #cbd5f5;
-  line-height: 1.8;
-  margin-bottom: 10px;
-}
-
-.grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
-  margin-top: 40px;
-}
-
-.card {
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
-  padding: 25px;
-  border-radius: 20px;
-  width: 260px;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-12px) scale(1.05);
-}
-
-.flowchart {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.box {
-  padding: 15px 30px;
-  border-radius: 15px;
-  margin: 10px;
-  background: rgba(255,255,255,0.1);
-}
-
-.line {
-  width: 2px;
-  height: 25px;
-  background: #38bdf8;
-}
-
-.bar {
-  height: 20px;
-  margin: 10px auto;
-  background: linear-gradient(90deg, #38bdf8, #6366f1);
-  border-radius: 10px;
-}
-
-.demo-btn {
-  padding: 12px 25px;
-  border-radius: 25px;
-  border: none;
-  background: #38bdf8;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-#result {
-  margin-top: 20px;
-  font-weight: bold;
-  color: #38bdf8;
-  font-size: 18px;
-}
-
+/* ── FOOTER ── */
 footer {
-  text-align: center;
-  padding: 30px;
-  color: #94a3b8;
+  background: var(--ink); color: rgba(245,240,232,0.4);
+  padding: 2rem 5%; display: flex; align-items: center; justify-content: space-between;
+  border-top: 2px solid var(--orange); flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo { font-family: var(--mono); font-size: 1rem; font-weight: 700; color: var(--bg); display: flex; align-items: center; gap: 0.6rem; }
+.footer-mid { font-family: var(--mono); font-size: 0.72rem; text-align: center; }
+.footer-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--orange); border: 1px solid rgba(232,93,4,0.3); padding: 0.3rem 0.8rem; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  #hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .flow-steps { grid-template-columns: repeat(3, 1fr); }
+  .flow-line { display: none; }
+  .engine-grid { grid-template-columns: 1fr; }
+  .proto-grid { grid-template-columns: 1fr; }
+  .model-grid { grid-template-columns: 1fr; }
+  .pricing-row { grid-template-columns: 1fr; }
+  .plan { border-right: none; border-bottom: 1px solid var(--card-border); }
+  .nav-links { display: none; }
+  .trigger-table-head, .trigger-row { grid-template-columns: 1.5fr 1fr 1fr; }
+  .tr-source { display: none; }
 }
 </style>
 </head>
-
 <body>
 
-<section class="hero">
-  <h1>GigShield AI</h1>
-  <p>AI-Powered Income Protection for Gig Delivery Workers</p>
-  <div class="team">Team Straw Hats • DEVTrails 2026</div>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-mark"></div>
+    GIGSHIELD.AI
+  </div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#how">System</a>
+    <a href="#engine">Engine</a>
+    <a href="#prototype">Prototype</a>
+    <a href="#pricing">Plans</a>
+  </div>
+  <div class="nav-badge">DEVTrails 2026</div>
+</nav>
 
-  <div class="cta">
-    <a href="#">🚀 Live Demo Prototype</a>
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-left">
+    <div class="eyebrow">Guidewire DEVTrails 2026 · Team Straw Hats</div>
+    <h1>Income protection for the <em>gig economy.</em></h1>
+    <p class="hero-desc">GigShield AI is a parametric insurance platform that monitors real-world disruptions — rain, heat, floods, curfews — and triggers automatic payouts. No forms. No waiting.</p>
+    <div class="hero-ctas">
+      <button class="btn-fill" onclick="document.getElementById('prototype').scrollIntoView({behavior:'smooth'})">Run Live Simulation →</button>
+      <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">System Architecture</button>
+    </div>
+    <div class="hero-kpis">
+      <div class="kpi"><div class="kpi-val">₹20</div><div class="kpi-label">Entry weekly premium</div></div>
+      <div class="kpi"><div class="kpi-val">0</div><div class="kpi-label">Manual claims needed</div></div>
+      <div class="kpi"><div class="kpi-val">5+</div><div class="kpi-label">Auto-trigger types</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-bg"></div>
+    <div class="sys-map">
+      <div class="sys-title">// GIGSHIELD SYSTEM OVERVIEW</div>
+      <div class="sys-nodes">
+        <div class="sys-node active" id="sn0">
+          <div class="node-icon">📡</div>
+          <div class="node-text">
+            <div class="node-name">EXTERNAL DATA LAYER</div>
+            <div class="node-status live">● Weather API / NDMA / CPCB · Polling every 5 min</div>
+          </div>
+          <div class="node-pulse on"></div>
+        </div>
+        <div class="connector"></div>
+        <div class="sys-node" id="sn1">
+          <div class="node-icon">🧠</div>
+          <div class="node-text">
+            <div class="node-name">AI DECISION ENGINE</div>
+            <div class="node-status">Risk scoring · Threshold validation · Premium calc</div>
+          </div>
+          <div class="node-pulse"></div>
+        </div>
+        <div class="connector"></div>
+        <div class="sys-node" id="sn2">
+          <div class="node-icon">🛡️</div>
+          <div class="node-text">
+            <div class="node-name">FRAUD DETECTION MODULE</div>
+            <div class="node-status">GPS validation · Behavioral clustering · Trust score</div>
+          </div>
+          <div class="node-pulse"></div>
+        </div>
+        <div class="connector"></div>
+        <div class="sys-node" id="sn3">
+          <div class="node-icon">💸</div>
+          <div class="node-text">
+            <div class="node-name">PAYOUT GATEWAY</div>
+            <div class="node-status">Auto-credit · UPI / wallet integration</div>
+          </div>
+          <div class="node-pulse"></div>
+        </div>
+        <div class="connector"></div>
+        <div class="sys-node" id="sn4">
+          <div class="node-icon">📱</div>
+          <div class="node-text">
+            <div class="node-name">WORKER MOBILE APP</div>
+            <div class="node-status">React.js · Plan mgmt · Claim history · Notifications</div>
+          </div>
+          <div class="node-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<div id="problem">
+  <p class="problem-quote">Every time it rains in Chennai, <strong>Arjun loses half his income</strong> — and there is no system that compensates him for it.</p>
+  <div class="problem-facts">
+    <div class="fact-row">Gig workers earn per completed delivery. Disruptions = zero orders = zero pay.</div>
+    <div class="fact-row">Existing insurance covers health and accidents — not income loss from external events.</div>
+    <div class="fact-row">Manual claims require paperwork, photos, and days of waiting — impractical for daily workers.</div>
+    <div class="fact-row">No structured financial safety net exists for India's ~10M gig delivery workforce.</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="sec-label"><span></span>System Flow</div>
+  <h2>How the Platform Works</h2>
+  <p class="sec-desc">A fully automated pipeline from disruption detection to payout — designed for zero manual intervention.</p>
+  <div class="flow-track">
+    <div class="flow-line"></div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-icon-sm">📱</div>
+        <h4>Worker Registers</h4>
+        <p>Quick onboarding, location set, plan selected</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-icon-sm">🧮</div>
+        <h4>Risk Priced</h4>
+        <p>ML model scores region based on historical disruption data</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-icon-sm">📡</div>
+        <h4>APIs Monitored</h4>
+        <p>Weather, AQI, NDMA, civic alerts polled continuously</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-icon-sm">⚡</div>
+        <h4>Threshold Crossed</h4>
+        <p>Predefined parametric condition met — auto-triggered</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">05</div>
+        <div class="flow-icon-sm">🛡️</div>
+        <h4>Fraud Validated</h4>
+        <p>Multi-layer check: GPS, behaviour, device, trust score</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">06</div>
+        <div class="flow-icon-sm">💸</div>
+        <h4>Payout Credited</h4>
+        <p>Compensation auto-sent. Worker notified instantly.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <h2>🚨 The Problem</h2>
-  <p>
-    Millions of gig workers depend on daily earnings for survival. However, their income is highly unstable and vulnerable to external disruptions such as heavy rainfall, traffic congestion, strikes, or technical outages in delivery platforms.
-  </p>
-  <p>
-    Unlike salaried employees, gig workers lack job security, insurance, and paid leave. A single day of disruption can directly impact their ability to afford basic necessities.
-  </p>
-</section>
-
-<section class="section">
-  <h2>💡 Our Solution</h2>
-  <p>
-    GigShield AI introduces a parametric insurance system that automatically compensates workers when disruptions occur.
-  </p>
-  <p>
-    Instead of filing claims manually, our AI engine continuously evaluates risk factors such as weather, traffic, and demand patterns to trigger instant payouts.
-  </p>
-</section>
-
-<section class="section">
-  <h2>⚙️ Core Features</h2>
-  <div class="grid">
-    <div class="card">🤖 AI Risk Engine analyzes multiple real-time factors to predict disruptions.</div>
-    <div class="card">📅 Flexible Plans allow workers to choose affordable weekly coverage.</div>
-    <div class="card">⚡ Automated Claims ensure instant payouts without paperwork.</div>
-    <div class="card">🔒 Fraud Detection identifies suspicious patterns using behavioral analysis.</div>
+<!-- PARAMETRIC ENGINE + FRAUD -->
+<section id="engine">
+  <div class="sec-label"><span></span>Decision Engine</div>
+  <h2>Parametric Triggers & Fraud Shield</h2>
+  <p class="sec-desc">The system validates claims against real-world data sources and runs a 6-layer anti-fraud check before any payout.</p>
+  <div class="engine-grid">
+    <div>
+      <div class="trigger-table">
+        <div class="trigger-table-head">
+          <div>TRIGGER EVENT</div>
+          <div>DATA SOURCE</div>
+          <div>THRESHOLD</div>
+          <div>STATUS</div>
+        </div>
+        <div class="trigger-row">
+          <div class="tr-event">🌧️ Heavy Rainfall</div>
+          <div class="tr-source">IMD Weather API</div>
+          <div class="tr-threshold">≥ 64.5 mm/hr</div>
+          <div class="tr-status"><span class="status-pill watch">WATCH</span></div>
+        </div>
+        <div class="trigger-row">
+          <div class="tr-event">🌡️ Extreme Heat</div>
+          <div class="tr-source">IMD / MAUSAM API</div>
+          <div class="tr-threshold">≥ 45°C</div>
+          <div class="tr-status"><span class="status-pill ok">CLEAR</span></div>
+        </div>
+        <div class="trigger-row">
+          <div class="tr-event">🌊 Flood Alert</div>
+          <div class="tr-source">NDMA Bulletin Feed</div>
+          <div class="tr-threshold">Orange / Red</div>
+          <div class="tr-status"><span class="status-pill ok">CLEAR</span></div>
+        </div>
+        <div class="trigger-row">
+          <div class="tr-event">😷 AQI Hazardous</div>
+          <div class="tr-source">CPCB AQI API</div>
+          <div class="tr-threshold">AQI ≥ 300</div>
+          <div class="tr-status"><span class="status-pill ok">CLEAR</span></div>
+        </div>
+        <div class="trigger-row">
+          <div class="tr-event">🚧 Curfew / Ban</div>
+          <div class="tr-source">State Govt. Alerts</div>
+          <div class="tr-threshold">Notice Issued</div>
+          <div class="tr-status"><span class="status-pill ok">CLEAR</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="fraud-panel">
+      <h3>// ANTI-FRAUD DEFENSE STACK</h3>
+      <div class="shield-layers">
+        <div class="shield-layer">
+          <div class="layer-num">L1</div>
+          <div class="layer-icon">📍</div>
+          <div class="layer-text">
+            <div class="layer-name">Multi-Source Location</div>
+            <div class="layer-desc">GPS + IP + movement consistency cross-verified</div>
+          </div>
+          <div class="layer-check">✓ PASS</div>
+        </div>
+        <div class="shield-layer">
+          <div class="layer-num">L2</div>
+          <div class="layer-icon">📊</div>
+          <div class="layer-text">
+            <div class="layer-name">Behavioral Analysis</div>
+            <div class="layer-desc">Claim frequency outlier detection</div>
+          </div>
+          <div class="layer-check">✓ PASS</div>
+        </div>
+        <div class="shield-layer">
+          <div class="layer-num">L3</div>
+          <div class="layer-icon">🌐</div>
+          <div class="layer-text">
+            <div class="layer-name">Event Correlation</div>
+            <div class="layer-desc">Claim must match verified real-world event</div>
+          </div>
+          <div class="layer-check">✓ PASS</div>
+        </div>
+        <div class="shield-layer">
+          <div class="layer-num">L4</div>
+          <div class="layer-icon">📱</div>
+          <div class="layer-text">
+            <div class="layer-name">Device Intelligence</div>
+            <div class="layer-desc">Multiple accounts per device flagged</div>
+          </div>
+          <div class="layer-check">✓ PASS</div>
+        </div>
+        <div class="shield-layer">
+          <div class="layer-num">L5</div>
+          <div class="layer-icon">⭐</div>
+          <div class="layer-text">
+            <div class="layer-name">Trust Score Engine</div>
+            <div class="layer-desc">Historical behavior weighted per user</div>
+          </div>
+          <div class="layer-check">✓ PASS</div>
+        </div>
+        <div class="shield-layer">
+          <div class="layer-num">L6</div>
+          <div class="layer-icon">🔍</div>
+          <div class="layer-text">
+            <div class="layer-name">Fraud Ring Detection</div>
+            <div class="layer-desc">Cluster analysis for coordinated fake claims</div>
+          </div>
+          <div class="layer-check">✓ PASS</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <h2>🧠 How It Works</h2>
-  <p>
-    The system collects multiple data inputs and processes them using a predictive model to determine the likelihood of disruption.
-  </p>
+<!-- PROTOTYPE SIMULATOR -->
+<section id="prototype">
+  <div class="sec-label"><span></span>Interactive Prototype</div>
+  <h2>Claim Decision Simulator</h2>
+  <p class="sec-desc">This demonstrates the decision engine logic end-to-end. Configure a scenario and observe how the system processes a claim.</p>
+  <div class="proto-grid">
+    <div class="proto-controls">
+      <div class="ctrl-group">
+        <div class="ctrl-label">// WORKER CITY</div>
+        <select id="pCity" class="ctrl-select">
+          <option>Chennai</option>
+          <option>Mumbai</option>
+          <option>Bengaluru</option>
+          <option>Hyderabad</option>
+          <option>Delhi</option>
+          <option>Kolkata</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-label">// DISRUPTION EVENT</div>
+        <select id="pEvent" class="ctrl-select">
+          <option value="rain">Heavy Rainfall</option>
+          <option value="flood">Flood Alert (NDMA)</option>
+          <option value="heat">Extreme Heat</option>
+          <option value="aqi">Hazardous AQI</option>
+          <option value="curfew">Curfew / Restriction</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-label">// EVENT INTENSITY (0–100)</div>
+        <input type="range" id="pIntensity" class="ctrl-slider" min="1" max="100" value="72" oninput="updateLabel('intensityOut', this.value, ['1','50','72','85','100'], ['Negligible','Moderate','High','Severe','Extreme'])">
+        <div class="slider-readout"><span>Low</span><span id="intensityOut">72 — High</span><span>Extreme</span></div>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-label">// INSURANCE PLAN</div>
+        <select id="pPlan" class="ctrl-select">
+          <option value="20,300">Low Risk — ₹20/week · ₹300/day max</option>
+          <option value="30,500" selected>Medium Risk — ₹30/week · ₹500/day max</option>
+          <option value="40,700">High Risk — ₹40/week · ₹700/day max</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-label">// USER TRUST SCORE</div>
+        <input type="range" id="pTrust" class="ctrl-slider" min="1" max="100" value="85" oninput="updateLabel('trustOut', this.value, ['1','39','65','80','100'], ['New','Low','Established','Trusted','Veteran'])">
+        <div class="slider-readout"><span>New</span><span id="trustOut">85 — Trusted</span><span>Veteran</span></div>
+      </div>
+      <button class="run-btn" id="runBtn" onclick="runSim()">▶ PROCESS CLAIM</button>
+    </div>
 
-  <div class="flowchart">
-    <div class="box">User Registers</div>
-    <div class="line"></div>
-    <div class="box">Select Plan</div>
-    <div class="line"></div>
-    <div class="box">AI Monitors Conditions</div>
-    <div class="line"></div>
-    <div class="box">Risk Evaluated</div>
-    <div class="line"></div>
-    <div class="box">Auto Claim Trigger</div>
-    <div class="line"></div>
-    <div class="box">Instant Wallet Credit</div>
+    <div class="terminal" id="terminal">
+      <div class="terminal-bar">
+        <div class="t-dot-r"></div><div class="t-dot-y"></div><div class="t-dot-g"></div>
+        <span class="t-title-bar">gigshield_decision_engine.log</span>
+      </div>
+      <div class="terminal-body" id="termBody">
+        <p class="t-line"><span class="t-comment">// Ready. Configure parameters and press PROCESS CLAIM.</span></p>
+        <p class="t-line"><span class="t-comment">// This simulates the automated claim assessment pipeline.</span></p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <h2>🧪 AI Prediction Demo</h2>
-  <p>
-    This demo simulates how our AI model evaluates disruption risk using multiple input factors and triggers actions accordingly.
-  </p>
-
-  <button onclick="simulateAI()" class="demo-btn">Run AI Prediction</button>
-  <p id="result"></p>
-
-  <canvas id="aiChart" width="400" height="200"></canvas>
+<!-- AI MODELS -->
+<section id="aimodel">
+  <div class="sec-label"><span></span>AI / ML Architecture</div>
+  <h2>Three Core ML Models</h2>
+  <p class="sec-desc">Machine learning powers risk pricing, threshold decisions, and fraud prevention across the platform.</p>
+  <div class="model-grid">
+    <div class="model-card">
+      <div class="model-num">01</div>
+      <div class="model-icon">📈</div>
+      <h3>Risk Prediction Model</h3>
+      <p>Analyses historical weather, pollution, and disruption data per city region. Outputs a risk score that determines weekly premium brackets.</p>
+      <div class="model-inputs">
+        <span class="input-tag">rainfall_history</span>
+        <span class="input-tag">temp_extremes</span>
+        <span class="input-tag">aqi_avg</span>
+        <span class="input-tag">flood_freq</span>
+        <span class="input-tag">region_code</span>
+      </div>
+    </div>
+    <div class="model-card">
+      <div class="model-num">02</div>
+      <div class="model-icon">⚡</div>
+      <h3>Dynamic Premium Engine</h3>
+      <p>Adjusts premiums based on live risk scores. High-risk zones receive higher coverage options at proportionally higher cost, ensuring actuarial fairness.</p>
+      <div class="model-inputs">
+        <span class="input-tag">risk_score</span>
+        <span class="input-tag">city_zone</span>
+        <span class="input-tag">season</span>
+        <span class="input-tag">claim_history</span>
+      </div>
+    </div>
+    <div class="model-card">
+      <div class="model-num">03</div>
+      <div class="model-icon">🛡️</div>
+      <h3>Fraud Detection Model</h3>
+      <p>Combines rule-based logic with unsupervised clustering to detect GPS spoofing, coordinated fake claims, and unusual behavioral patterns.</p>
+      <div class="model-inputs">
+        <span class="input-tag">gps_trace</span>
+        <span class="input-tag">claim_freq</span>
+        <span class="input-tag">device_id</span>
+        <span class="input-tag">peer_cluster</span>
+        <span class="input-tag">trust_score</span>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="section">
-  <h2>📊 Impact</h2>
-  <p>
-    GigShield AI significantly improves worker stability by reducing income uncertainty and providing immediate financial relief during disruptions.
-  </p>
-
-  <div>Income Protection</div>
-  <div class="bar" style="width:85%"></div>
-
-  <div>Fraud Detection Accuracy</div>
-  <div class="bar" style="width:70%"></div>
-
-  <div>Automation Efficiency</div>
-  <div class="bar" style="width:95%"></div>
+<!-- PRICING -->
+<section id="pricing">
+  <div class="sec-label"><span></span>Insurance Plans</div>
+  <h2>Weekly Premium Structure</h2>
+  <p class="sec-desc">Premiums are computed from historical disruption frequency per city zone. Aligned to weekly gig-worker earning cycles.</p>
+  <div class="pricing-row">
+    <div class="plan">
+      <div class="plan-zone">LOW RISK ZONE</div>
+      <div class="plan-price-block">
+        <div class="plan-price-num">₹20</div>
+        <div class="plan-price-unit">per week</div>
+      </div>
+      <ul class="plan-features">
+        <li><span class="ck">✓</span>All 5 disruption triggers</li>
+        <li><span class="ck">✓</span>Auto-claim processing</li>
+        <li><span class="ck">✓</span>Up to ₹300/day payout</li>
+        <li><span class="ck">✓</span>Basic fraud protection</li>
+        <li><span class="ck">✓</span>SMS notifications</li>
+      </ul>
+      <button class="plan-cta" onclick="document.getElementById('prototype').scrollIntoView({behavior:'smooth'})">SELECT PLAN</button>
+    </div>
+    <div class="plan mid">
+      <div class="plan-recommended">RECOMMENDED</div>
+      <div class="plan-zone">MEDIUM RISK ZONE</div>
+      <div class="plan-price-block">
+        <div class="plan-price-num">₹30</div>
+        <div class="plan-price-unit">per week</div>
+      </div>
+      <ul class="plan-features">
+        <li><span class="ck">✓</span>All 5 disruption triggers</li>
+        <li><span class="ck">✓</span>Priority claim processing</li>
+        <li><span class="ck">✓</span>Up to ₹500/day payout</li>
+        <li><span class="ck">✓</span>Advanced fraud shield</li>
+        <li><span class="ck">✓</span>App + SMS notifications</li>
+        <li><span class="ck">✓</span>Trust score dashboard</li>
+      </ul>
+      <button class="plan-cta" onclick="document.getElementById('prototype').scrollIntoView({behavior:'smooth'})">SELECT PLAN</button>
+    </div>
+    <div class="plan">
+      <div class="plan-zone">HIGH RISK ZONE</div>
+      <div class="plan-price-block">
+        <div class="plan-price-num">₹40</div>
+        <div class="plan-price-unit">per week</div>
+      </div>
+      <ul class="plan-features">
+        <li><span class="ck">✓</span>All 5 disruption triggers</li>
+        <li><span class="ck">✓</span>Same-day payout priority</li>
+        <li><span class="ck">✓</span>Up to ₹700/day payout</li>
+        <li><span class="ck">✓</span>Full anti-spoofing suite</li>
+        <li><span class="ck">✓</span>Dedicated support line</li>
+        <li><span class="ck">✓</span>Regional risk heatmaps</li>
+      </ul>
+      <button class="plan-cta" onclick="document.getElementById('prototype').scrollIntoView({behavior:'smooth'})">SELECT PLAN</button>
+    </div>
+  </div>
 </section>
 
+<!-- TECH STACK -->
+<section id="tech">
+  <div class="sec-label"><span></span>Technology Stack</div>
+  <h2>Built On</h2>
+  <div class="tech-row" style="margin-top:2rem;">
+    <div class="tech-chip"><div class="tech-chip-icon">⚛️</div><div class="tech-chip-name">React.js</div><div class="tech-chip-role">Frontend / Mobile UI</div></div>
+    <div class="tech-chip"><div class="tech-chip-icon">🟢</div><div class="tech-chip-name">Node.js + Express</div><div class="tech-chip-role">Backend API</div></div>
+    <div class="tech-chip"><div class="tech-chip-icon">🐘</div><div class="tech-chip-name">PostgreSQL</div><div class="tech-chip-role">Policy & Claim DB</div></div>
+    <div class="tech-chip"><div class="tech-chip-icon">🐍</div><div class="tech-chip-name">Python / Scikit-learn</div><div class="tech-chip-role">ML Models</div></div>
+    <div class="tech-chip"><div class="tech-chip-icon">🌤️</div><div class="tech-chip-name">IMD / NDMA APIs</div><div class="tech-chip-role">Live Disruption Data</div></div>
+    <div class="tech-chip"><div class="tech-chip-icon">💳</div><div class="tech-chip-name">Payment Gateway</div><div class="tech-chip-role">Instant UPI Payout</div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  © 2026 GigShield AI • Team Straw Hats
+  <div class="footer-logo">
+    <div class="nav-logo-mark"></div>
+    GIGSHIELD.AI
+  </div>
+  <div class="footer-mid">
+    Team Straw Hats · Guidewire DEVTrails 2026<br>
+    <span style="font-size:0.65rem; color:rgba(245,240,232,0.2);">Interactive system design prototype — Phase 1</span>
+  </div>
+  <div class="footer-tag">PHASE 1 PROTOTYPE</div>
 </footer>
 
 <script>
-const sections = document.querySelectorAll(".section");
-window.addEventListener("scroll", () => {
-  sections.forEach(sec => {
-    const top = sec.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100){
-      sec.classList.add("show");
-    }
+// ── System map animation ──
+const nodes = ['sn0','sn1','sn2','sn3','sn4'];
+let activeNode = 0;
+function animateNodes() {
+  nodes.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('active');
+    el.querySelector('.node-pulse').classList.remove('on');
   });
-});
+  const el = document.getElementById(nodes[activeNode]);
+  if (el) {
+    el.classList.add('active');
+    el.querySelector('.node-pulse').classList.add('on');
+  }
+  activeNode = (activeNode + 1) % nodes.length;
+}
+setInterval(animateNodes, 1800);
 
-const ctx = document.getElementById('aiChart').getContext('2d');
+// ── Slider label updater ──
+function updateLabel(outId, val, breakpoints, labels) {
+  val = parseInt(val);
+  let label = labels[0];
+  for (let i = 0; i < breakpoints.length; i++) {
+    if (val >= parseInt(breakpoints[i])) label = labels[i];
+  }
+  document.getElementById(outId).textContent = `${val} — ${label}`;
+}
 
-let chart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: ['Rain','Demand','Traffic','History','Final Risk'],
-    datasets: [{
-      label: 'Risk %',
-      data: [10,20,30,40,50],
-      borderColor: '#38bdf8',
-      backgroundColor: 'rgba(56,189,248,0.2)',
-      tension: 0.4,
-      fill: true
-    }]
-  },
-  options: {
-    plugins: {
-      legend: { labels: { color: "white" } }
-    },
-    scales: {
-      x: { ticks: { color: "white" }},
-      y: { ticks: { color: "white" }}
+// ── Claim simulator ──
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function runSim() {
+  const city = document.getElementById('pCity').value;
+  const event = document.getElementById('pEvent').value;
+  const intensity = parseInt(document.getElementById('pIntensity').value);
+  const planRaw = document.getElementById('pPlan').value.split(',');
+  const planPrem = parseInt(planRaw[0]);
+  const planMax = parseInt(planRaw[1]);
+  const trust = parseInt(document.getElementById('pTrust').value);
+
+  const eventNames = { rain:'Heavy Rainfall', flood:'Flood Alert (NDMA)', heat:'Extreme Heat', aqi:'Hazardous AQI', curfew:'Curfew / Restriction' };
+  const thresholds = { rain:'64.5 mm/hr', flood:'Orange/Red Alert', heat:'45°C', aqi:'AQI 300', curfew:'Govt. Notice' };
+
+  const triggered = intensity >= 55;
+  const fraudRisk = trust < 40 ? 'HIGH' : trust < 65 ? 'MEDIUM' : 'LOW';
+  const approved = triggered && trust >= 40;
+  const payout = approved ? Math.round(planMax * (intensity / 100)) : 0;
+  const riskScore = Math.min(99, Math.round((intensity * 0.65) + ((100 - trust) * 0.35)));
+
+  const now = new Date();
+  const ts = () => new Date().toLocaleTimeString('en-IN', { hour12: false });
+
+  const body = document.getElementById('termBody');
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ PROCESSING...';
+  body.innerHTML = '';
+
+  const lines = [
+    { delay: 0,    html: `<p class="t-line"><span class="t-comment">// ─── GIGSHIELD DECISION ENGINE v1.0 ───────────────────</span></p>` },
+    { delay: 120,  html: `<p class="t-line"><span class="t-comment">// Timestamp: ${ts()}</span></p>` },
+    { delay: 200,  html: `<p class="t-blank"></p>` },
+    { delay: 300,  html: `<p class="t-line"><span class="t-key">STEP 1</span> <span class="t-comment">· Ingesting external data feed...</span></p>` },
+    { delay: 600,  html: `<p class="t-line">  <span class="t-key">city</span>        <span class="t-val">${city}</span></p>` },
+    { delay: 700,  html: `<p class="t-line">  <span class="t-key">event_type</span>  <span class="t-val">${eventNames[event]}</span></p>` },
+    { delay: 800,  html: `<p class="t-line">  <span class="t-key">intensity</span>   <span class="t-val">${intensity}/100</span></p>` },
+    { delay: 900,  html: `<p class="t-line">  <span class="t-key">threshold</span>   <span class="t-val">${thresholds[event]}</span></p>` },
+    { delay: 1000, html: `<p class="t-blank"></p>` },
+    { delay: 1100, html: `<p class="t-line"><span class="t-key">STEP 2</span> <span class="t-comment">· Parametric threshold evaluation...</span></p>` },
+    { delay: 1400, html: `<p class="t-line">  <span class="t-key">threshold_crossed</span>  <span class="${triggered ? 't-ok' : 't-err'}">${triggered ? 'TRUE ✓' : 'FALSE ✗'}</span></p>` },
+    { delay: 1500, html: `<p class="t-blank"></p>` },
+  ];
+
+  if (!triggered) {
+    lines.push({ delay: 1600, html: `<p class="t-line"><span class="t-warn">⚠ Intensity (${intensity}) below required threshold. Claim not triggered.</span></p>` });
+    lines.push({ delay: 1700, html: `<p class="t-line"><span class="t-key">DECISION</span> <span class="t-err">NO_CLAIM — THRESHOLD_NOT_MET</span></p>` });
+  } else {
+    lines.push(...[
+      { delay: 1600, html: `<p class="t-line"><span class="t-key">STEP 3</span> <span class="t-comment">· Running fraud detection (6-layer)...</span></p>` },
+      { delay: 1900, html: `<p class="t-line">  <span class="t-key">L1 location_verify</span>   <span class="t-ok">PASS</span></p>` },
+      { delay: 2100, html: `<p class="t-line">  <span class="t-key">L2 behavior_analysis</span> <span class="${trust < 40 ? 't-err' : trust < 65 ? 't-warn' : 't-ok'}">${trust < 40 ? 'FAIL' : trust < 65 ? 'FLAGGED' : 'PASS'}</span></p>` },
+      { delay: 2300, html: `<p class="t-line">  <span class="t-key">L3 event_correlation</span> <span class="t-ok">PASS</span></p>` },
+      { delay: 2500, html: `<p class="t-line">  <span class="t-key">L4 device_check</span>      <span class="t-ok">PASS</span></p>` },
+      { delay: 2700, html: `<p class="t-line">  <span class="t-key">L5 trust_score</span>       <span class="t-val">${trust}/100</span></p>` },
+      { delay: 2900, html: `<p class="t-line">  <span class="t-key">L6 cluster_analysis</span>  <span class="t-ok">NO_RING_DETECTED</span></p>` },
+      { delay: 3100, html: `<p class="t-blank"></p>` },
+      { delay: 3200, html: `<p class="t-line"><span class="t-key">STEP 4</span> <span class="t-comment">· Risk scoring...</span></p>` },
+      { delay: 3500, html: `<p class="t-line">  <span class="t-key">risk_score</span>   <span class="t-val">${riskScore}/100</span></p>` },
+      { delay: 3600, html: `<p class="t-line">  <span class="t-key">fraud_risk</span>   <span class="${fraudRisk === 'LOW' ? 't-ok' : fraudRisk === 'MEDIUM' ? 't-warn' : 't-err'}">${fraudRisk}</span></p>` },
+      { delay: 3700, html: `<p class="t-blank"></p>` },
+    ]);
+
+    if (approved) {
+      lines.push(...[
+        { delay: 3800, html: `<p class="t-line"><span class="t-key">STEP 5</span> <span class="t-comment">· Calculating compensation...</span></p>` },
+        { delay: 4100, html: `<p class="t-line">  <span class="t-key">plan_max_daily</span>  <span class="t-val">₹${planMax}</span></p>` },
+        { delay: 4200, html: `<p class="t-line">  <span class="t-key">intensity_factor</span> <span class="t-val">${intensity}%</span></p>` },
+        { delay: 4300, html: `<p class="t-line">  <span class="t-key">payout_amount</span>   <span class="t-orange">₹${payout}</span></p>` },
+        { delay: 4400, html: `<p class="t-blank"></p>` },
+        { delay: 4500, html: `<p class="t-line"><span class="t-key">STEP 6</span> <span class="t-comment">· Initiating payout gateway...</span></p>` },
+        { delay: 4800, html: `<p class="t-line">  <span class="t-key">payment_method</span>  <span class="t-val">UPI / Wallet</span></p>` },
+        { delay: 4900, html: `<p class="t-line">  <span class="t-key">ETA</span>             <span class="t-val">< 2 minutes</span></p>` },
+        { delay: 5000, html: `<p class="t-blank"></p>` },
+        { delay: 5100, html: `<p class="t-line"><span class="t-key">━━ DECISION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span></p>` },
+        { delay: 5200, html: `<div class="payout-box">
+          <div class="payout-row"><span class="payout-label">CLAIM STATUS</span><span style="font-family:var(--mono);font-size:0.85rem;color:#4ade80;font-weight:700;">✓ APPROVED</span></div>
+          <div class="payout-row"><span class="payout-label">WORKER</span><span style="font-family:var(--mono);font-size:0.8rem;color:rgba(245,240,232,0.6);">${city} · Trust ${trust}/100</span></div>
+          <div class="payout-row"><span class="payout-label">EVENT</span><span style="font-family:var(--mono);font-size:0.8rem;color:rgba(245,240,232,0.6);">${eventNames[event]}</span></div>
+          <div class="payout-row" style="margin-top:0.8rem; border-top:1px solid rgba(232,93,4,0.2); padding-top:0.8rem;"><span class="payout-label" style="font-size:0.78rem;">AUTO-CREDIT AMOUNT</span><span class="payout-main">₹${payout}</span></div>
+        </div>` },
+      ]);
+    } else {
+      lines.push(...[
+        { delay: 3800, html: `<p class="t-line"><span class="t-warn">⚠ Trust score (${trust}) below minimum threshold (40).</span></p>` },
+        { delay: 3900, html: `<p class="t-line"><span class="t-warn">  Claim flagged for manual review — not auto-approved.</span></p>` },
+        { delay: 4000, html: `<p class="t-line"><span class="t-key">DECISION</span> <span class="t-err">FLAGGED — LOW_TRUST_SCORE</span></p>` },
+      ]);
     }
   }
-});
 
-function simulateAI() {
-  let rain = Math.random();
-  let demand = Math.random();
-  let traffic = Math.random();
-  let history = Math.random();
-
-  let risk = (rain*0.4 + demand*0.2 + traffic*0.25 + history*0.15) * 100;
-  risk = Math.round(risk);
-
-  let message;
-
-  if(risk > 70){
-    message = `⚠ High Risk (${risk}%) → Claim Triggered → ₹300 Credited`;
-  } else if(risk > 40){
-    message = `⚡ Medium Risk (${risk}%) → Monitoring...`;
-  } else {
-    message = `✅ Low Risk (${risk}%) → No payout`;
+  for (const line of lines) {
+    await sleep(line.delay === 0 ? 0 : 100);
+    await sleep(line.delay === 0 ? 0 : line.delay - (lines[lines.indexOf(line) - 1]?.delay || 0));
+    body.innerHTML += line.html;
+    body.scrollTop = body.scrollHeight;
   }
 
-  document.getElementById("result").innerText = message;
-
-  chart.data.datasets[0].data = [
-    rain*100,
-    demand*100,
-    traffic*100,
-    history*100,
-    risk
-  ];
-  chart.update();
+  btn.disabled = false;
+  btn.textContent = '▶ PROCESS CLAIM';
 }
 </script>
-
 </body>
 </html>
